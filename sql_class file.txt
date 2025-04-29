@@ -1,0 +1,39 @@
+package com.example.terminalpractice
+
+import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import android.content.Context
+
+class SqlDb(context: Context): SQLiteOpenHelper(context,"userDb",null,1) {
+    override fun onCreate(db: SQLiteDatabase) {
+        db.execSQL("CREATE TABLE users (name TEXT,age TEXT,dob TEXT)")
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        db.execSQL("DROP TABLE IF EXISTS users")
+        onCreate(db)
+    }
+    fun insertUser(name: String,age: String,dob: String):Boolean {
+        val db=this.writableDatabase
+        val contentValues= ContentValues()
+        contentValues.put("name",name)
+        contentValues.put("age",age)
+        contentValues.put("dob",dob)
+        val res=db.insert("users",null,contentValues)
+        return res!=-1L
+    }
+
+    fun retrieveUser(name: String,age: String,dob: String):Boolean{
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM users WHERE name = ? AND age = ? AND dob = ?",
+            arrayOf(name, age, dob)
+        )
+
+        val exists = cursor.count > 0
+        cursor.close()
+        db.close()
+        return exists
+    }
+}
