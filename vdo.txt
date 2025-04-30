@@ -1,7 +1,10 @@
 package com.example.terminalpractice
 
+import android.annotation.SuppressLint
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Button
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +13,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class Video : AppCompatActivity() {
+
+    //audio
+    var audioPlayer: MediaPlayer?=null
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,12 +30,25 @@ class Video : AppCompatActivity() {
 
         //vdo
         val vdo=findViewById<VideoView>(R.id.videoView)
-        val vdouri= Uri.parse("https://www.youtube.com/watch?v=DScFlfN9vDk")
+        val vdouri= Uri.parse("android.resource://" + packageName + "/" + R.raw.sample_video)
         vdo.setVideoURI(vdouri)
 
         val mediaController= MediaController(this)
         mediaController.setAnchorView(vdo)
         vdo.setMediaController(mediaController)
         vdo.start()
+
+        //audio
+        val playbtn=findViewById<Button>(R.id.button5)
+        val pausebtn=findViewById<Button>(R.id.button6)
+        playbtn.setOnClickListener {
+            if(audioPlayer==null){
+                audioPlayer= MediaPlayer.create(this,R.raw.recorded_audio)
+            }
+            audioPlayer?.start()
+        }
+        pausebtn.setOnClickListener {
+            audioPlayer?.pause()
+        }
     }
 }
