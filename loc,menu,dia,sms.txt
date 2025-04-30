@@ -88,11 +88,13 @@ class Second : AppCompatActivity() {
             popup.setOnMenuItemClickListener { item->
                 when(item.itemId){
                     R.id.menu_home->{
-                    Toast.makeText(this,"home selected", Toast.LENGTH_SHORT).show()
+                        val intent= Intent(this, Video::class.java)
+                        startActivity(intent)
                         true
                 }
                 R.id.menu_about->{
-                Toast.makeText(this,"about selected", Toast.LENGTH_SHORT).show()
+                    val intent= Intent(this, Video::class.java)
+                    startActivity(intent)
                 true
             }
                 else-> false
@@ -142,7 +144,8 @@ class Second : AppCompatActivity() {
             true
         }
             R.id.menu_about->{
-            Toast.makeText(this,"about selected", Toast.LENGTH_SHORT).show()
+                val intent= Intent(this, Video::class.java)
+                startActivity(intent)
             true
         }
             else -> super.onOptionsItemSelected(item)
